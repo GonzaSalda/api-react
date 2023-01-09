@@ -13,15 +13,11 @@ const PokemonProvider = ({ children }) => {
     const [isOpenTypes, setIsOpenTypes] = useState(false)
 
 
-
-    const [loading, setLoading] = useState(true)
-    const [active, setActive] = useState(false)
-
     const getPokemons = async() => {
-        const url = 'https://pokeapi.co/api/v2/pokemon/?limit=20'
+        const url = 'https://pokeapi.co/api/v2/pokemon/?limit=6'
         const res = await fetch(`${url}&offset=${offSet}`)
         const data = await res.json()
-        console.log(data)
+        
 
         const promises = data.results.map(async(pokemon) => {
             const res = await fetch(pokemon.url)
@@ -30,11 +26,8 @@ const PokemonProvider = ({ children }) => {
         })
 
         const results = await Promise.all(promises)
-        setPokemons([
-            ...pokemons, 
-            ...results
-        ])
-        setLoading(false)
+        
+        setPokemons([...pokemons, ...results]) /* Copio el array viejo y le agrego los nuevos 6 pokemons del metodo onClickLoadMore */
     }
 
     const getAllPokemons = async()=>{
@@ -49,13 +42,12 @@ const PokemonProvider = ({ children }) => {
 
         const results = await Promise.all(promises)
         setAllPokemons(results)
-        setLoading(false)
     }
 
     const getAllType = async()=>{
         const res = await fetch('https://pokeapi.co/api/v2/type')
         const data = await res.json()
-        console.log(data)
+       
 
         const promises = data.results.map(async(pokemon) => {
             const res = await fetch(pokemon.url)
@@ -64,25 +56,9 @@ const PokemonProvider = ({ children }) => {
         })
         const results = await Promise.all(promises)
 
-
         setTypes(results)
         
-    }
-
-
-
-    const getAllPokemonsType = async()=>{
-        const res = await fetch('https://pokeapi.co/api/v2/type')
-        const data = await res.json()
-
-        const promises = data.results.map(async(pokemon) => {
-            const res= await fetch(pokemon.url)
-            const data= await res.json()
-            return data;
-        })
-
-        const results = await Promise.all(promises)
-        console.log(results)
+        console.log(results.name)
     }
 
     const getPokemonById = async(id) =>{
@@ -91,25 +67,26 @@ const PokemonProvider = ({ children }) => {
         return data
     }
 
+    const onClickLoadMore = () => {
+        setOffSet(offSet + 6)
+    }
+
+
     useEffect(() => {
         getPokemons()
-    }, [])
+    }, [offSet])
     
     useEffect(() => {
         getAllPokemons()
     }, [])
     
     useEffect(() => {
-        getAllPokemonsType()
-    }, [])
-
-    useEffect(() => {
         getAllType()
     }, [])
 
 
     return (
-        <PokemonContext.Provider value={{allPokemons,pokemons,getPokemonById, types, isOpenTypes, setIsOpenTypes } } >
+        <PokemonContext.Provider value={{allPokemons,pokemons,getPokemonById, types, isOpenTypes, setIsOpenTypes, onClickLoadMore} } >
             {children}
         </PokemonContext.Provider>
     )

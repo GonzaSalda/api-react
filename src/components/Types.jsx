@@ -1,6 +1,17 @@
-import React from 'react'
+import { usePokemonContext } from '../context/PokemonContext'
 
 const Types = ({item}) => {
+
+/*   const {setTypes,types,}= usePokemonContext
+
+  const handleChange = (e) => {
+    setTypes({...types,
+    [e.target.name] : e.target.checked})
+   
+   
+  }
+  console.log(types)
+ */
   return (
     <>
     <div className='inline-block px-2 py-2 '>

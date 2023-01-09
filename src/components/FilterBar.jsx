@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { usePokemonContext } from '../context/PokemonContext'
 import Types from './Types'
 import Filter from '../icons/Filter'
