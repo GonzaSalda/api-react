@@ -6,9 +6,9 @@ import SearchMovies from './components/SearchMovies'
 const App = () => {
   return (
     <>
-    <ListGenres/>
     <SearchMovies/>
     <PopularMoviesList/>
+    <ListGenres/>
     </>
   )
 }

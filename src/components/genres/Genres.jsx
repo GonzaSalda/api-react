@@ -7,9 +7,9 @@ const Genres = ({item}) => {
     return (
         <>
 
-            <div >
+            <div className='flex m-2 text-2xl text-white items-center'>
                 <input type="checkbox" name={`${item.id}`} onChange={handleChange}/>
-                <label htmlFor={item.name}>{item.name}</label>
+                <label className='ml-2' htmlFor={item.name}>{item.name}</label>
             </div>
 
         </>
