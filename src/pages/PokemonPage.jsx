@@ -16,7 +16,6 @@ const PokemonPage = () => {
 
   useEffect(() => {
     fetchPokemon(id)
-
   }, [])
 
 

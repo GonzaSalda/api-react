@@ -67,7 +67,9 @@ const PokemonProvider = ({ children }) => {
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
         const data = await res.json()
         return data
+        
     }
+
 
     const onClickLoadMore = () => {
         setOffSet(offSet + 6)
@@ -142,7 +144,8 @@ const PokemonProvider = ({ children }) => {
                 isOpenTypes,
                 setIsOpenTypes,
                 onClickLoadMore,
-                pokemonsFiltered
+                pokemonsFiltered,
+                allPokemons
             }}>
             {children}
         </PokemonContext.Provider>

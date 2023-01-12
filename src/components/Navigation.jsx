@@ -3,23 +3,19 @@ import { useNavigate } from "react-router-dom"
 
 const Navigation = () => {
 
-    const initialForm = {
-        name:''
-    }
-    const [formState, setFormState] = useState(initialForm)
+    const [inputValue, setInputValue] = useState("")
 
     const navigate = useNavigate()
     
     const handleSubmit = (e) => {
         e.preventDefault()
         navigate('/search', {
-            state: formState.name
+            state: inputValue
         })
     }
 
     const handleChange = (e) => {
-        setFormState({...formState, 
-        [e.target.name]:e.target.value})
+        setInputValue(e.target.value)
     }
 
 
@@ -28,7 +24,7 @@ const Navigation = () => {
 
         <header>
             <form  onSubmit={handleSubmit}>
-                <input type="text" placeholder="buscar pokemon" name='name' value={formState.name} onChange={handleChange}/>
+                <input type="text" placeholder="buscar pokemon"  value={inputValue} onChange={handleChange}/>
                 <button>Buscar</button>
             </form>
         </header>
