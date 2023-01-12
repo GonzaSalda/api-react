@@ -2,7 +2,7 @@ import { useMovieDBContext } from "../context/MovieDBContext"
 import PopularMoviesCard from "./PopularMovieCard/PopularMoviesCard"
 
 const PopularMoviesList = () => {
-    const { genresMovies, popular,searchedMovies } = useMovieDBContext()
+    const { popular, searchedMovies,query,genresMovies } = useMovieDBContext()
 
 
 
@@ -13,20 +13,33 @@ const PopularMoviesList = () => {
 
             <div className="flex flex-wrap gap-10">
                 {
-                    genresMovies.length ?(
+                    query.length > 1? (
                         <>
-                        {genresMovies.map((item) => (
+                        {searchedMovies.map((item) => (
                             <PopularMoviesCard key={item.id} item={item} />
                         ))}
                         
                         </>
                     ):
                     (
-                        <>
-                        {searchedMovies.map((item) => (
-                            <PopularMoviesCard key={item.id} item={item} />
-                         ))}
-                        </>
+                        
+                            genresMovies.length ?(
+                                <>
+                                {genresMovies.map((item) => (
+                                    <PopularMoviesCard key={item.id} item={item} />
+                                ))}
+                                
+                                </>
+                            ):
+                            (
+                                <>
+                                {popular.map((item) => (
+                                    <PopularMoviesCard key={item.id} item={item} />
+                                 ))}
+                                </>
+                            )
+        
+                        
                     )
 
                 }

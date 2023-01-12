@@ -7,7 +7,7 @@ const ListGenres = () => {
     return (
         <>
 
-            <div className='flex  flex-col w-[250px] h-auto absolute top-0 rounded-2xl  bg-slate-500 bg-opacity-95'>
+            <div className='flex  flex-col w-[250px] h-auto absolute top-6 rounded-2xl  bg-slate-500 bg-opacity-95'>
                 {genres.map(item => (
                     <Genres key={item.id} item={item}/>
                 ))}
