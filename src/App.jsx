@@ -1,11 +1,12 @@
 import React from 'react'
+import PopularMoviesList from './components/PopularMoviesList'
+import SearchMovies from './components/SearchMovies'
 
 const App = () => {
   return (
     <>
-    
-
-      <h1 className='text-center text-4xl'>Hola</h1>
+    <SearchMovies/>
+    <PopularMoviesList/>
     </>
   )
 }
