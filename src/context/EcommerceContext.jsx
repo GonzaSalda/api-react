@@ -28,6 +28,23 @@ const EcommerceProvider = ({ children }) => {
     }
 
 
+    const restarProducto = (id) => {
+        const newCart = cart.find(item => item.id === id)
+        if(newCart.amount === 1){
+            setCart(cart.filter(item => item.id !== id))
+        }else{
+            setCart(
+                cart.map(item => {
+                    if(item.id === id){
+                        return {...newCart, amount:newCart.amount -1};
+                    }else return cart
+                })
+            )
+        }
+        
+     
+    }
+
 
     const getAllProducts = async () => {
         const res = await fetch("https://fakestoreapi.com/products")
@@ -42,7 +59,7 @@ const EcommerceProvider = ({ children }) => {
 
     return (
         <EcommerceContext.Provider
-            value={{ allProducts, setIsOpenCart, isOpenCart, addCart, cart, total, sumarProducto }}>
+            value={{ allProducts, setIsOpenCart, isOpenCart, addCart, cart, total, sumarProducto, restarProducto}}>
             {children}
         </EcommerceContext.Provider>
     )

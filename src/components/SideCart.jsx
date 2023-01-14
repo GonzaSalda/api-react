@@ -2,7 +2,7 @@ import { useEcommerceContext } from '../context/EcommerceContext'
 import CloseIcon from '../icons/CloseIcon'
 import ProductDetail from './ProductDetail'
 const SideCart = () => {
-    const { isOpenCart, setIsOpenCart, cart,total } = useEcommerceContext()
+    const { isOpenCart, setIsOpenCart, cart, total } = useEcommerceContext()
 
 
     const amount = cart.reduce((acc, current) => { return acc + current.amount }, 0)
@@ -21,12 +21,11 @@ const SideCart = () => {
                     <h2>{amount} Productos</h2>
                 </div>
 
-
-                {cart.map(item => (
-                    <div className='flex flex-col '>
-                        <ProductDetail key={item.id} item={item}/>
-                    </div>
-                ))}
+                <div className='flex flex-col '>
+                    {cart.map(item => (
+                        <ProductDetail key={item.id} item={item} />
+                    ))}
+                </div>
                 <p className='font-semibold text-xl p-2'>Total: ${total}</p>
 
             </div>

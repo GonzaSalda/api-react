@@ -2,7 +2,7 @@ import { useEcommerceContext } from "../context/EcommerceContext"
 
 const ProductDetail = ({item}) => {
    
-    const {sumarProducto} = useEcommerceContext()
+    const {sumarProducto,restarProducto} = useEcommerceContext()
   return (
     <>
     
@@ -11,7 +11,7 @@ const ProductDetail = ({item}) => {
         <div>
         <p className='text-xs'>{item.title}</p>
             <div className='flex gap-4'>
-                <button /* onClick={} */>-</button>
+                <button onClick={()=> restarProducto(item.id)}>-</button>
                 <p>{item.amount}</p>
                 <button onClick={() => sumarProducto(item.id)}>+</button>    
             </div>
