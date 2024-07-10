@@ -37,9 +37,14 @@ const RickAndMortyProvider = ({ children }) => {
     }
 
     const getAllCharacterBySearch = async () => {
-        const res = await fetch(`https://rickandmortyapi.com/api/character/?name=${searchValue}`)
-        const data = await res.json()
-        setAllCharacters(data.results)
+        if (searchValue) {
+            const res = await fetch(`https://rickandmortyapi.com/api/character/?name=${searchValue}`)
+            const data = await res.json()
+            setAllCharacters(data.results)
+        }else{
+            setAllCharacters(allCharacters)
+        }
+
     }
 
     useEffect(() => {

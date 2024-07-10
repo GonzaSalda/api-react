@@ -22,7 +22,7 @@ const CharacterList = () => {
                     <>
                         <div className="flex flex-wrap gap-10 justify-around">
                             {
-                                allCharacters.map(item => (
+                                allCharacters?.map(item => (
                                     <CharacterCard key={item.id} item={item} />
                                 ))
                             }
