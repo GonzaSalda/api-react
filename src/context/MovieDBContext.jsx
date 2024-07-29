@@ -1,91 +1,96 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-export const MovieDBContext = createContext()
+export const MovieDBContext = createContext();
 
 const MovieDBProvider = ({ children }) => {
+  const [popular, setPopular] = useState([]);
+
+  const [genres, setGenres] = useState([]);
+  const [searchedMovies, setSearchedMovies] = useState([]);
+  const [query, setQuery] = useState("");
+
+  const getPopularMovie = async () => {
+    const res = await fetch(
+      "https://api.themoviedb.org/3/movie/popular?api_key=ca80c8807e05af97aad35cc9dee29190"
+    );
+    const data = await res.json();
+    setPopular(data.results);
+  };
+
+  const getGenres = async () => {
+    const res = await fetch(
+      "https://api.themoviedb.org/3/genre/movie/list?api_key=ca80c8807e05af97aad35cc9dee29190"
+    );
+    const data = await res.json();
+    setGenres(data.genres);
+  };
 
 
-    const [popular, setPopular] = useState([])
-
-    const [genres, setGenres] = useState([])
-    const [searchedMovies, setSearchedMovies] = useState([])
-    const [query, setQuery] = useState("")
-
-
-
-    const getPopularMovie = async () => {
-        const res = await fetch("https://api.themoviedb.org/3/movie/popular?api_key=ca80c8807e05af97aad35cc9dee29190")
-        const data = await res.json()
-        setPopular(data.results)
+  //METODO PARA BUSCAR DESDE EL ARRAY
+/*   useEffect(() => {
+    if (query) {
+      const filteredResults = popular.filter((movie) =>
+        movie.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setSearchedMovies(filteredResults);
     }
+  }, [query]); */
 
-    const getGenres = async () => {
-        const res = await fetch("https://api.themoviedb.org/3/genre/movie/list?api_key=ca80c8807e05af97aad35cc9dee29190")
-        const data = await res.json()
-        setGenres(data.genres)
+  /* METODO PARA BUSCAR DESDE LA API */
+  const getSearchedMovies = async () => {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=ca80c8807e05af97aad35cc9dee29190&query=${query}`
+    );
+    const data = await res.json();
+    setSearchedMovies(data.results);
+  };
+
+  useEffect(() => {
+    if (query) {
+      getSearchedMovies();
     }
+  }, [query]);
 
-    /* METODO PARA BUSCAR DESDE LA API */
-/*     const getSearchedMovies = async () => {
-        const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=ca80c8807e05af97aad35cc9dee29190&query=${query}`)
-        const data = await res.json()
-        setSearchedMovies(data.results)
-    } */
+  const [checked, setChecked] = useState(false);
+  const [genresMovies, setGenresMovies] = useState([]);
 
+  const handleChange = (e) => {
+    setChecked({ ...checked, [e.target.name]: e.target.checked });
 
-    const [checked, setChecked] = useState(false)
-    const [genresMovies, setGenresMovies] = useState([])
+    setGenresMovies(
+      popular.filter(
+        (item) =>
+          e.target.checked && item.genre_ids.toString().includes(e.target.name)
+      )
+    );
+  };
 
-    const handleChange = (e) => {
-        setChecked({ ...checked, [e.target.name]: e.target.checked })
+  useEffect(() => {
+    getPopularMovie();
+  }, []);
 
-        setGenresMovies(
-            popular.filter(item =>
-                e.target.checked
-                && item.genre_ids.toString().includes(e.target.name)
-            ))
-        /*  console.log(e.target) */
-    }
+  useEffect(() => {
+    getGenres();
+  }, []);
 
+  return (
+    <MovieDBContext.Provider
+      value={{
+        popular,
+        genres,
+        handleChange,
+        genresMovies,
+        query,
+        setQuery,
+        /*                 getSearchedMovies,
+         */ searchedMovies,
+      }}
+    >
+      {children}
+    </MovieDBContext.Provider>
+  );
+};
 
+export default MovieDBProvider;
 
-    useEffect(() => {
-        getPopularMovie()
-    }, [])
-
-    useEffect(() => {
-        getGenres()
-    }, [])
-
-    useEffect(() => {
-        if (query) {
-            const filteredResults = popular.filter((pokemon) =>
-              pokemon.title.toLowerCase().includes(query.toLowerCase())
-            );
-            setSearchedMovies(filteredResults);
-          
-          }
-    }, [query])
-
-
-
-    return (
-        <MovieDBContext.Provider
-            value={{
-                popular,
-                genres,
-                handleChange,
-                genresMovies,
-                query,
-                setQuery,
-/*                 getSearchedMovies,
- */                searchedMovies
-            }}>
-            {children}
-        </MovieDBContext.Provider>
-    )
-}
-
-export default MovieDBProvider
-
-export const useMovieDBContext = () => useContext(MovieDBContext)
+export const useMovieDBContext = () => useContext(MovieDBContext);
